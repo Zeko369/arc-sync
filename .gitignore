@@ -1,2 +1,4 @@
 tmp.json
-result.json
+result*.json
+
+node_modules/
