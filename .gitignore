@@ -2,3 +2,4 @@ tmp.json
 result*.json
 
 node_modules/
+.env

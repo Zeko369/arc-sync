@@ -15,4 +15,10 @@ export class ArcWindow {
 
     return null;
   }
+
+  public toJSON() {
+    return {
+      spaces: Object.values(this.spaces).map((space) => space.toJSON()),
+    };
+  }
 }

@@ -60,7 +60,6 @@ export class Importer {
       }
 
       const spaceId = parsed.data.itemContainer.containerType.spaceItems._0;
-      console.log(spaceId, arcWindow.spaces);
       const space = arcWindow.spaces[spaceId];
       if (!space) {
         throw new Error("Space not found");

@@ -23,4 +23,13 @@ export class Space {
     this.pinnedContainer = new Container(containerIds.pinned);
     this.unpinnedContainer = new Container(containerIds.unpinned);
   }
+
+  public toJSON() {
+    return {
+      id: this.id,
+      title: this.title,
+      pinnedContainer: this.pinnedContainer.node.toJSON(),
+      unpinnedContainer: this.unpinnedContainer.node.toJSON(),
+    };
+  }
 }
