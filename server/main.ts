@@ -21,17 +21,16 @@ server.post(
 );
 
 server.post(
-  "/data/:id",
+  "/syncs/:id",
   {
     schema: {
-      body: Type.Object({ data: Type.String() }),
       params: Type.Object({ id: Type.String() }),
     },
   },
   (req, reply) => {
     return prisma.sync.create({
       data: {
-        data: req.body.data,
+        data: (req.body as any)["data"],
         user: {
           connect: {
             id: req.params.id,
@@ -43,7 +42,7 @@ server.post(
 );
 
 server.get(
-  "/data/:id",
+  "/syncs/:id",
   { schema: { params: Type.Object({ id: Type.String() }) } },
   (req, reply) => {
     return prisma.sync.findFirst({

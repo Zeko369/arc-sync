@@ -11,6 +11,8 @@
   "dependencies": {
     "@fastify/type-provider-typebox": "^2.4.0",
     "@sinclair/typebox": "^0.25.10",
+    "ajv": "^8.11.2",
+    "ajv-formats": "^2.1.1",
     "fastify": "^4.10.2",
     "prisma": "^4.7.1"
   },
