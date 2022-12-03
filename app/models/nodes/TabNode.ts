@@ -11,7 +11,7 @@ export class TabNode extends Node implements ITabNode {
 
   readonly url;
   readonly domain;
-  readonly favicon;
+  readonly favicon: ITabNode["favicon"];
 
   constructor(item: ITabNode) {
     super(item);

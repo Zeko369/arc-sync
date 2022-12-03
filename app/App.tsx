@@ -1,7 +1,8 @@
-import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-import * as SecureStore from "expo-secure-store";
 import React, { useMemo, useState } from "react";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
 import { View, Text, TextInput, Pressable, SafeAreaView, ScrollView, Image } from "react-native";
+import * as SecureStore from "expo-secure-store";
+
 import { importWhole } from "./models";
 import { FolderNode, ItemContainerNode, TabNode } from "./models/nodes";
 import { Node } from "./models/nodes/Node";
@@ -26,17 +27,32 @@ const AuthScreen = ({ refetch }) => {
   );
 };
 
+const Favicon: React.FC<{ node: TabNode }> = ({ node }) => {
+  if (node.url.startsWith("file:")) {
+    return <Text>LOCAL</Text>;
+  }
+
+  if (!node.favicon) {
+    return (
+      <Image
+        style={{ width: 20, height: 20 }}
+        source={{ uri: `https://www.google.com/s2/favicons?domain=${node.domain}&sz=128` }}
+      />
+    );
+  }
+
+  if (node.favicon.type === "icon") {
+    return <Text>ico:{node.favicon.value}</Text>;
+  }
+
+  return <Text>{node.favicon.value}</Text>;
+};
+
 const RenderNode: React.FC<{ node: Node }> = ({ node }) => {
   if (node instanceof TabNode) {
     return (
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        {!node.favicon && (
-          <Image
-            style={{ width: 20, height: 20 }}
-            source={{ uri: `https://www.google.com/s2/favicons?domain=${node.domain}&sz=128` }}
-          />
-        )}
-
+      <View className="flex flex-row">
+        <Favicon node={node} />
         <Text style={{ fontSize: 14, marginLeft: 4 }}>{node.title || node.url.slice(0, 32)}</Text>
       </View>
     );
