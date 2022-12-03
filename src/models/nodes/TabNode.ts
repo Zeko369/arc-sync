@@ -3,6 +3,7 @@ import { TabSchema } from "../../import/parser/schema";
 
 export interface ITabNode extends INode {
   url: string;
+  domain: string;
   favicon: undefined | { type: "emoji"; value: string } | { type: "icon"; value: string };
 }
 
@@ -10,12 +11,14 @@ export class TabNode extends Node implements ITabNode {
   type = "tab";
 
   readonly url;
+  readonly domain;
   readonly favicon;
 
   constructor(item: ITabNode) {
     super(item);
 
     this.url = item.url;
+    this.domain = new URL(item.url).hostname;
     this.favicon = item.favicon;
   }
 
@@ -23,6 +26,7 @@ export class TabNode extends Node implements ITabNode {
     return {
       ...super.baseJSON(),
       url: this.url,
+      domain: this.domain,
       favicon: this.favicon,
     };
   }

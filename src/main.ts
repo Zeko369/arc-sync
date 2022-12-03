@@ -18,22 +18,32 @@ config({ path: join(__dirname, "../.env") });
 const importer = new Importer();
 
 const int = setInterval(async () => {
-  const data = await importer.import();
-  const res = await fetch(`http://localhost:3000/syncs/${process.env["USER_ID"]}`, {
-    method: "POST",
-    body: JSON.stringify({ data: data.toJSON() }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const data = await importer.import();
 
-  if (!res.ok) {
-    console.log("Error sending data");
-    console.log(await res.json());
-    return;
+    try {
+      const res = await fetch(`http://192.168.0.129:3000/syncs/${process.env["USER_ID"]}`, {
+        method: "POST",
+        body: JSON.stringify({ data: data.toJSON() }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!res.ok) {
+        console.log("Error sending data");
+        console.log(await res.json());
+        return;
+      }
+
+      console.log("Sent data");
+    } catch (err) {
+      console.log("Error sending data");
+      console.log(err);
+    }
+  } catch (e) {
+    console.error("Error parsing", e);
   }
-
-  console.log("Sent data");
 }, 2000);
 
 process.on("beforeExit", () => {
