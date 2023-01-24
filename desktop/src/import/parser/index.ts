@@ -32,6 +32,7 @@ export class ArcParser {
           ...rest,
           favicon: TabNode.getFavicon(data),
           url: data["tab"]["savedURL"],
+          title: data["tab"]["savedTitle"],
         });
       case "easel":
       case "splitView":

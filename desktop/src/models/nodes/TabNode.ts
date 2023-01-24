@@ -14,7 +14,7 @@ export class TabNode extends Node implements ITabNode {
   readonly domain;
   readonly favicon;
 
-  constructor(item: ITabNode) {
+  constructor(item: Omit<ITabNode, "domain">) {
     super(item);
 
     this.url = item.url;
