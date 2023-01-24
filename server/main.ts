@@ -118,7 +118,7 @@ server.get(
 
 (async () => {
   let port = 3000;
-  if (process.env["PORT"] && Number.isNaN(Number(process.env["PORT"]))) {
+  if (process.env["PORT"] && !Number.isNaN(Number(process.env["PORT"]))) {
     port = Number(process.env["PORT"]);
   }
 
