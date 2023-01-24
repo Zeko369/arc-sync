@@ -10,8 +10,16 @@ import { ArcNode } from "./parser/schema";
 export class Importer {
   static FILENAME = `${process.env["HOME"]}/Library/Application\ Support/Arc/StorableSidebar.json`;
 
+  oldFile: string = ''
+
   async loadFile() {
     const file = await readFile(Importer.FILENAME, "utf8");
+    if(file === this.oldFile) {
+      throw new Error("SAME_FILE");
+    }
+
+    this.oldFile = file;
+
     return JSON.parse(file);
   }
 

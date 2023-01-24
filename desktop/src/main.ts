@@ -9,7 +9,6 @@
 // - figure out end2end encryption
 
 import { join } from "node:path";
-import { watch } from "node:fs/promises";
 import { config } from "dotenv";
 
 import { Importer } from "./import/importer";
@@ -17,18 +16,17 @@ import { Importer } from "./import/importer";
 config({ path: join(__dirname, "../.env") });
 
 const importer = new Importer();
-const ac = new AbortController();
-
-process.on("beforeExit", () => {
-  console.log("Closing...");
-  ac.abort();
-});
 
 const onCatch = (err: any) => err as Error;
 
 const parseAndSend = async () => {
   const data = await importer.import().catch(onCatch);
   if (data instanceof Error) {
+    if (data.message === "SAME_FILE") {
+      console.log("No changes");
+      return;
+    }
+
     console.log("Error parsing", data);
     return;
   }
@@ -38,8 +36,8 @@ const parseAndSend = async () => {
     body: JSON.stringify({ data: data.toJSON() }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env["TOKEN"]}`,
-    },
+      Authorization: `Bearer ${process.env["TOKEN"]}`
+    }
   }).catch(onCatch);
 
   if (res instanceof Error) {
@@ -57,19 +55,9 @@ const parseAndSend = async () => {
   console.log("Sent data");
 };
 
-(async () => {
-  await parseAndSend();
+const interval = setInterval(() => parseAndSend(), 1000);
 
-  try {
-    const watcher = watch(Importer.FILENAME, { signal: ac.signal });
-    for await (const event of watcher) {
-      parseAndSend();
-    }
-  } catch (error) {
-    if (error instanceof Error) {
-      if (error.name === "AbortError") return;
-    }
-
-    throw error;
-  }
-})();
+process.on("beforeExit", () => {
+  console.log("Closing...");
+  clearInterval(interval);
+});

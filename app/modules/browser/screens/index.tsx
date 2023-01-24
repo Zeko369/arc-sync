@@ -1,6 +1,6 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
 
@@ -20,9 +20,9 @@ export const Browser = () => {
   if (isError || isLoading) {
     return (
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="Loading">
           <Drawer.Screen
-            name="Home"
+            name="Loading"
             component={() => (
               <CenterWrapper>
                 {isLoading ? <ActivityIndicator size="large" /> : <Text>Error...</Text>}
@@ -43,6 +43,9 @@ const RenderPane = (spaceId: string) => () => {
   return (
     <ScrollView className="w-full">
       <RenderNode node={arcWindow.spaces[spaceId].pinnedContainer.node} />
+
+      <View className="mt-6 mb-4 bg-gray-400 mx-4" style={{ height: 1 }} />
+
       <RenderNode node={arcWindow.spaces[spaceId].unpinnedContainer.node} />
     </ScrollView>
   );
@@ -56,7 +59,7 @@ const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
     <ArcWindowProvider arcWindow={arcWindow}>
       <NavigationContainer>
         <Drawer.Navigator initialRouteName={Object.values(arcWindow.spaces)[0].title}>
-          {Object.values(arcWindow.spaces).map((space) => (
+          {Object.values(arcWindow.spaces).map(space => (
             <Drawer.Screen name={space.title} component={RenderPane(space.id)} />
           ))}
         </Drawer.Navigator>

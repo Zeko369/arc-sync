@@ -1,5 +1,7 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
 import { TabNode, ItemContainerNode, FolderNode, Node } from "../../../models/nodes";
 import { Favicon } from "./Favicon";
 
@@ -40,9 +42,13 @@ export const RenderNode: React.FC<{ node: Node }> = ({ node }) => {
         <Tab onPress={onPress}>
           <Favicon node={node} />
 
-          <Text numberOfLines={1} className="ml-2 text-lg w-11/12">
+          <Text numberOfLines={1} className="ml-2 text-lg" style={{flex: 1}}>
             {node.title || (node as TabNode)?.url?.slice(0, 32)}
           </Text>
+
+          {hasChildren && (
+            <Ionicons name={collapsed ? "chevron-down" : "chevron-up"} size={20} color="black" />
+          )}
         </Tab>
       )}
 
