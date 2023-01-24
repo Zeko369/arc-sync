@@ -1,13 +1,18 @@
 import { Text, Image } from "react-native";
 import { FolderNode, TabNode } from "../../../models/nodes";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+const iconMap: Record<string, any> = {
+  document: "document-text-outline",
+};
 
 export const Favicon: React.FC<{ node: TabNode | FolderNode }> = ({ node }) => {
   if (node instanceof FolderNode) {
-    return <Text>Folder</Text>;
+    return <Ionicons name="folder" size={20} color="#007AFF" />;
   }
 
   if (node.url.startsWith("file:")) {
-    return <Text>LOCAL</Text>;
+    return <Ionicons name="desktop-outline" size={20} color="#007AFF" />;
   }
 
   if (!node.favicon) {
@@ -20,6 +25,10 @@ export const Favicon: React.FC<{ node: TabNode | FolderNode }> = ({ node }) => {
   }
 
   if (node.favicon.type === "icon") {
+    if (iconMap[node.favicon.value]) {
+      return <Ionicons name={iconMap[node.favicon.value]} size={20} color="#007AFF" />;
+    }
+
     return <Text>ico:{node.favicon.value}</Text>;
   }
 
