@@ -6,14 +6,20 @@
   "license": "MIT",
   "scripts": {
     "start": "ts-node ./main.ts",
-    "dev": "nodemon --exec 'ts-node' ./main.ts"
+    "dev": "nodemon --exec 'ts-node' ./main.ts",
+    "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
     "@fastify/type-provider-typebox": "^2.4.0",
     "@sinclair/typebox": "^0.25.10",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/jsonwebtoken": "^9.0.1",
     "ajv": "^8.11.2",
     "ajv-formats": "^2.1.1",
+    "bcryptjs": "^2.4.3",
     "fastify": "^4.10.2",
+    "fastify-plugin": "^4.5.0",
+    "jsonwebtoken": "^9.0.0",
     "prisma": "^4.7.1"
   },
   "devDependencies": {
