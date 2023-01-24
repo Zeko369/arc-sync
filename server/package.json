@@ -5,10 +5,11 @@
   "author": "Fran Zekan",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
+    "build": "yarn db:deploy && tsc",
     "start": "node ./dist/main.js",
     "dev": "nodemon --exec 'ts-node' ./main.ts",
-    "db:migrate": "prisma migrate dev"
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@fastify/type-provider-typebox": "^2.4.0",
@@ -21,7 +22,8 @@
     "fastify": "^4.10.2",
     "fastify-plugin": "^4.5.0",
     "jsonwebtoken": "^9.0.0",
-    "prisma": "^4.7.1"
+    "prisma": "^4.7.1",
+    "zeko369-tsconfig": "^2.1.1"
   },
   "devDependencies": {
     "@prisma/client": "^4.7.1",

@@ -1,7 +1,13 @@
 {
-  "extends": "../tsconfig.json",
+  "extends": "./node_modules/zeko369-tsconfig/configs/tsconfig.json",
   "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "target": "ES2021",
     "strict": true,
     "outDir": "./dist"
+  },
+
+  "ts-node": {
+    "swc": true
   }
 }
