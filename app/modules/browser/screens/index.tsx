@@ -41,7 +41,7 @@ const RenderPane = (spaceId: string) => () => {
   const arcWindow = useArcWindow();
 
   return (
-    <ScrollView className="w-full">
+    <ScrollView className="w-full" scrollIndicatorInsets={{ right: 1 }}>
       <RenderNode node={arcWindow.spaces[spaceId].pinnedContainer.node} />
 
       <View className="mt-6 mb-4 bg-gray-400 mx-4" style={{ height: 1 }} />
@@ -60,7 +60,7 @@ const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName={Object.values(arcWindow.spaces)[0].title}>
           {Object.values(arcWindow.spaces).map(space => (
-            <Drawer.Screen name={space.title} component={RenderPane(space.id)} />
+            <Drawer.Screen key={space.id} name={space.title} component={RenderPane(space.id)} />
           ))}
         </Drawer.Navigator>
       </NavigationContainer>

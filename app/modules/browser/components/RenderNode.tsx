@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import * as WebBrowser from "expo-web-browser";
 
 import { TabNode, ItemContainerNode, FolderNode, Node } from "../../../models/nodes";
 import { Favicon } from "./Favicon";
@@ -32,7 +33,11 @@ export const RenderNode: React.FC<{ node: Node }> = ({ node }) => {
 
   const onPress = () => {
     if (hasChildren) {
-      setCollapsed((c) => !c);
+      return setCollapsed(c => !c);
+    }
+
+    if (node instanceof TabNode) {
+      WebBrowser.openBrowserAsync(node.url);
     }
   };
 
@@ -42,7 +47,7 @@ export const RenderNode: React.FC<{ node: Node }> = ({ node }) => {
         <Tab onPress={onPress}>
           <Favicon node={node} />
 
-          <Text numberOfLines={1} className="ml-2 text-lg" style={{flex: 1}}>
+          <Text numberOfLines={1} className="ml-2 text-lg" style={{ flex: 1 }}>
             {node.title || (node as TabNode)?.url?.slice(0, 32)}
           </Text>
 
@@ -57,7 +62,7 @@ export const RenderNode: React.FC<{ node: Node }> = ({ node }) => {
           className={`ml-4 ${isContainer ? "mr-4" : ""}`}
           style={showChildren ? {} : { height: 0, width: 0, opacity: 0 }}
         >
-          {node.children.map((child) => (
+          {node.children.map(child => (
             <RenderNode key={child.id} node={child} />
           ))}
         </View>
