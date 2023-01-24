@@ -13,8 +13,10 @@ import { RenderNode } from "../components/RenderNode";
 
 export const Browser = () => {
   const auth = useAuth();
-  const { data, isLoading, isError } = useQuery(["sync"], () =>
-    api<{ data: string }>("/sync", {}, auth?.token)
+  const { data, isLoading, isError } = useQuery(
+    ["sync"],
+    () => api<{ data: string }>("/sync", {}, auth?.token),
+    { refetchInterval: 1000 }
   );
 
   if (isError || isLoading) {
