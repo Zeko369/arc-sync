@@ -49,7 +49,7 @@ server.post(
       return reply.code(401).send("User not found");
     }
 
-    if (await compare(request.body.password, user?.hashedPassword)) {
+    if (!(await compare(request.body.password, user.hashedPassword))) {
       return reply.code(401).send("Invalid password");
     }
 
