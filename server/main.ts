@@ -2,7 +2,7 @@ import fastify, { FastifyRequest } from "fastify";
 import { PrismaClient } from "@prisma/client";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 import { Type } from "@sinclair/typebox";
-import { compare } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
 
 const server = fastify().withTypeProvider<TypeBoxTypeProvider>();
@@ -13,7 +13,35 @@ server.get("/", (request, reply) => {
 });
 
 server.post(
-  "/login",
+  "/auth/signup",
+  {
+    schema: {
+      body: Type.Object({
+        email: Type.String(),
+        password: Type.String(),
+      }),
+    },
+  },
+  async (request, reply) => {
+    const user = await prisma.user.findUnique({ where: { email: request.body.email } });
+    if (user) {
+      return reply.code(401).send("User already exists");
+    }
+
+    const hashedPassword = await hash(request.body.password, 10);
+    const newUser = await prisma.user.create({
+      data: {
+        email: request.body.email,
+        hashedPassword,
+      },
+    });
+
+    return sign({ id: newUser.id }, process.env["SECRET"]!);
+  }
+);
+
+server.post(
+  "/auth/login",
   { schema: { body: Type.Object({ email: Type.String(), password: Type.String() }) } },
   async (request, reply) => {
     const user = await prisma.user.findUnique({ where: { email: request.body.email } });
@@ -71,7 +99,7 @@ server.post(
 );
 
 server.get(
-  "/syncs/:id",
+  "/syncs/:id/last",
   { schema: { params: Type.Object({ id: Type.String() }) } },
   (request, reply) => {
     const [ok, error] = validateUser(request);
