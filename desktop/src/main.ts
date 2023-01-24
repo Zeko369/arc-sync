@@ -33,14 +33,17 @@ const parseAndSend = async () => {
     return;
   }
 
-  const res = await fetch(`https://arc-sync-production.up.railway.app/syncs`, {
-    method: "POST",
-    body: JSON.stringify({ data: data.toJSON() }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env["TOKEN"]}`,
-    },
-  }).catch(onCatch);
+  const res = await fetch(
+    `https://arc-sync-production.up.railway.app/syncs/${process.env["USER_ID"]}`,
+    {
+      method: "POST",
+      body: JSON.stringify({ data: data.toJSON() }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env["TOKEN"]}`,
+      },
+    }
+  ).catch(onCatch);
 
   if (res instanceof Error) {
     console.log("Error sending data");
