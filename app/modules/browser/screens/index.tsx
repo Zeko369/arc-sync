@@ -10,6 +10,7 @@ import { CenterWrapper } from "../../../components/CenterWrapper";
 import { importWhole } from "../../../models";
 import { ArcWindowProvider, useArcWindow } from "../arcWindowContext";
 import { RenderNode } from "../components/RenderNode";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export const Browser = () => {
   const auth = useAuth();
@@ -53,6 +54,11 @@ const RenderPane = (spaceId: string) => () => {
   );
 };
 
+const spaceIconMap = {
+  planet: "planet",
+  fileTrayFull: "file-tray-full"
+};
+
 const Drawer = createDrawerNavigator();
 const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
   const arcWindow = useMemo(() => importWhole(raw), [raw]);
@@ -62,7 +68,45 @@ const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
       <NavigationContainer>
         <Drawer.Navigator initialRouteName={Object.values(arcWindow.spaces)[0].title}>
           {Object.values(arcWindow.spaces).map(space => (
-            <Drawer.Screen key={space.id} name={space.title} component={RenderPane(space.id)} />
+            <Drawer.Screen
+              key={space.id}
+              name={space.title}
+              component={RenderPane(space.id)}
+              options={{
+                drawerIcon: () => {
+                  if (space.icon.type === "icon") {
+                    if (space.icon.value === "NO_ICON") {
+                      return (
+                        <View className="flex items-center justify-center" style={{ width: 18 }}>
+                          <View
+                            style={{
+                              width: 8,
+                              height: 8,
+                              backgroundColor: "#A0AEC0",
+                              borderRadius: 4
+                            }}
+                          />
+                        </View>
+                      );
+                    }
+
+                    // @ts-ignore
+                    if (spaceIconMap[space.icon.value]) {
+                      return (
+                        // @ts-ignore
+                        <Ionicons name={spaceIconMap[space.icon.value]} size={18} color="black" />
+                      );
+                    }
+
+                    return <Text>{space.icon.value} missing</Text>;
+                  } else if (space.icon.type === "emoji") {
+                    return <Text>{space.icon.value}</Text>;
+                  }
+
+                  return <Text>NO_ICON</Text>;
+                }
+              }}
+            />
           ))}
         </Drawer.Navigator>
       </NavigationContainer>

@@ -10,11 +10,11 @@ import { ArcNode } from "./parser/schema";
 export class Importer {
   static FILENAME = `${process.env["HOME"]}/Library/Application\ Support/Arc/StorableSidebar.json`;
 
-  oldFile: string = ''
+  oldFile: string = "";
 
   async loadFile() {
     const file = await readFile(Importer.FILENAME, "utf8");
-    if(file === this.oldFile) {
+    if (file === this.oldFile) {
       throw new Error("SAME_FILE");
     }
 
@@ -32,19 +32,25 @@ export class Importer {
 
     const arcWindow = new ArcWindow({});
 
-    iterateOverWeirdArray<{ containerIDs: string[]; title: string }>(
-      window["spaces"],
-      (spaceId, space) => {
-        const containerIds = convertArrayToObj<string, "pinned" | "unpinned">(
-          space["containerIDs"]
-        );
+    iterateOverWeirdArray<{
+      containerIDs: string[];
+      title: string;
+      customInfo: { iconType?: any };
+    }>(window["spaces"], (spaceId, space) => {
+      const containerIds = convertArrayToObj<string, "pinned" | "unpinned">(space["containerIDs"]);
 
-        arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], {
-          pinned: containerIds["pinned"],
-          unpinned: containerIds["unpinned"],
-        });
+      let icon: any = { type: "icon" as const, value: "NO_ICON" };
+      if (space["customInfo"]?.["iconType"]?.["icon"]) {
+        icon = { type: "icon" as const, value: space["customInfo"]?.["iconType"]?.["icon"] };
+      } else if (space["customInfo"]?.["iconType"]?.["emoji_v2"]) {
+        icon = { type: "emoji" as const, value: space["customInfo"]?.["iconType"]?.["emoji_v2"] };
       }
-    );
+
+      arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], icon, {
+        pinned: containerIds["pinned"],
+        unpinned: containerIds["unpinned"]
+      });
+    });
 
     // FIXME: this is a lie
     const tmpItemsObj = convertArrayToObj<ArcNode>(window["items"]);

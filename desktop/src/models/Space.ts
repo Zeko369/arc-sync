@@ -15,6 +15,7 @@ export class Space {
   constructor(
     readonly id: string,
     readonly title: string,
+    readonly icon: { type: "emoji"; value: string } | { type: "icon"; value: string },
     containerIds: {
       pinned: string;
       unpinned: string;
@@ -27,9 +28,10 @@ export class Space {
   public toJSON() {
     return {
       id: this.id,
+      icon: this.icon,
       title: this.title,
       pinnedContainer: this.pinnedContainer.node.toJSON(),
-      unpinnedContainer: this.unpinnedContainer.node.toJSON(),
+      unpinnedContainer: this.unpinnedContainer.node.toJSON()
     };
   }
 }
