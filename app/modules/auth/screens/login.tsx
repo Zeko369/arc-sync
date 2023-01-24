@@ -1,14 +1,11 @@
 import { useContext, useState } from "react";
 import { TextInput, Text, View } from "react-native";
 import { useMutation } from "@tanstack/react-query";
+import { api } from "../../../lib/api";
+import { AuthContext } from "../authContext";
+import { Button } from "../../../components/Button";
 
-import { Button } from "../components/Button";
-import { AuthContext } from "../modules/auth/context";
-import { useRouter } from "expo-router";
-import { api } from "../lib/api";
-
-export default function Login() {
-  const router = useRouter();
+export const LoginScreen = () => {
   const ctx = useContext(AuthContext);
 
   const [email, setEmail] = useState("zekan.fran369@gmail.com");
@@ -21,12 +18,7 @@ export default function Login() {
     })
   );
 
-  const onSubmit = () => {
-    mutation
-      .mutateAsync()
-      .then(ctx.storeUser)
-      .then(() => router.push("/"));
-  };
+  const onSubmit = () => mutation.mutateAsync().then(ctx.storeUser);
 
   return (
     <View>
@@ -40,4 +32,4 @@ export default function Login() {
       </Button>
     </View>
   );
-}
+};

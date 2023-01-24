@@ -1,7 +1,11 @@
 import { Text, Image } from "react-native";
-import { TabNode } from "../../models/nodes";
+import { FolderNode, TabNode } from "../../../models/nodes";
 
-export const Favicon: React.FC<{ node: TabNode }> = ({ node }) => {
+export const Favicon: React.FC<{ node: TabNode | FolderNode }> = ({ node }) => {
+  if (node instanceof FolderNode) {
+    return <Text>Folder</Text>;
+  }
+
   if (node.url.startsWith("file:")) {
     return <Text>LOCAL</Text>;
   }

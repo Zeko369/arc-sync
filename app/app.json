@@ -2,7 +2,6 @@
   "expo": {
     "name": "arc-sync",
     "slug": "arc-sync",
-    "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
