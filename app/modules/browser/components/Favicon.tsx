@@ -4,16 +4,18 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 
 const iconMap: Record<string, any> = {
-  document: "document-text-outline"
+  document: "document-text-outline",
 };
 
-export const GetIcon: React.FC<{ name: string }> = ({ name }) => {
-  return <Ionicons name={name as any} size={20} color="#007AFF" />;
+export const GetIcon: React.FC<{ name: string; color?: string | null }> = (props) => {
+  const { name, color } = props;
+  return <Ionicons name={name as any} size={20} color={`${color}89` || "#adadad"} />;
 };
 
-export const Favicon: React.FC<{ node: TabNode | FolderNode }> = ({ node }) => {
+type FaviconProps = { node: TabNode | FolderNode; color: string | null };
+export const Favicon: React.FC<FaviconProps> = ({ node, color }) => {
   if (node instanceof FolderNode) {
-    return <GetIcon name="folder" />;
+    return <GetIcon name="folder" color={color} />;
   }
 
   if (node.url.startsWith("file:")) {
