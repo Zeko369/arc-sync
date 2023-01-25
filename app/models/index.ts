@@ -6,9 +6,9 @@ export const importWhole = (data: any): ArcWindow => {
   return new ArcWindow(
     Object.fromEntries(
       data.spaces.map((space: any) => {
-        const s = new Space(space["id"], space["title"], space["icon"], {
+        const s = new Space(space["id"], space["title"], space["icon"], space["color"], {
           pinned: space["pinnedContainer"]["id"],
-          unpinned: space["unpinnedContainer"]["id"]
+          unpinned: space["unpinnedContainer"]["id"],
         });
 
         s.pinnedContainer.node = fromJSON(space["pinnedContainer"]) as ItemContainerNode;

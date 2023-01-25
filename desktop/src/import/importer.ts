@@ -35,7 +35,7 @@ export class Importer {
     iterateOverWeirdArray<{
       containerIDs: string[];
       title: string;
-      customInfo: { iconType?: any };
+      customInfo: { iconType?: any; windowTheme?: any };
     }>(window["spaces"], (spaceId, space) => {
       const containerIds = convertArrayToObj<string, "pinned" | "unpinned">(space["containerIDs"]);
 
@@ -46,9 +46,21 @@ export class Importer {
         icon = { type: "emoji" as const, value: space["customInfo"]?.["iconType"]?.["emoji_v2"] };
       }
 
-      arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], icon, {
+      let color: string | null = null;
+      const tmpColor = space["customInfo"]?.windowTheme?.primaryColorPalette?.shadedDark;
+      if (tmpColor) {
+        const convert = (x: number) =>
+          Math.max(Math.round(x * 255), 0)
+            .toString(16)
+            .padStart(2, "0");
+
+        color = `#${convert(tmpColor.red)}${convert(tmpColor.green)}${convert(tmpColor.blue)}`;
+        console.log(color);
+      }
+
+      arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], icon, color, {
         pinned: containerIds["pinned"],
-        unpinned: containerIds["unpinned"]
+        unpinned: containerIds["unpinned"],
       });
     });
 
