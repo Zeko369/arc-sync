@@ -18,6 +18,7 @@ export abstract class Node implements INode {
     this.parentID = item.parentID;
   }
 
+  // deno-lint-ignore no-explicit-any
   abstract toJSON(): any;
 
   baseJSON(): INode & { type: string } {

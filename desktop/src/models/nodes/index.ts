@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { FolderNode } from "./FolderNode.ts";
 import { GenericNode } from "./GenericNode.ts";
 import { ItemContainerNode } from "./ItemContainerNode.ts";

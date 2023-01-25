@@ -1,5 +1,6 @@
 {
   "tasks": {
-    "start": "deno run --allow-net --allow-read --allow-write --allow-env --unstable ./src/main.ts"
+    "start": "deno run --allow-net --allow-read --allow-write --allow-env --unstable ./src/main.ts",
+    "build": "deno compile --allow-net --allow-read --allow-write --allow-env --unstable --output ./dist/main ./src/main.ts"
   }
 }
