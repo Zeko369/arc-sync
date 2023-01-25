@@ -1,14 +1,14 @@
-import { FolderNode } from "./FolderNode";
-import { GenericNode } from "./GenericNode";
-import { ItemContainerNode } from "./ItemContainerNode";
-import { Node } from "./Node";
-import { TabNode } from "./TabNode";
+import { FolderNode } from "./FolderNode.ts";
+import { GenericNode } from "./GenericNode.ts";
+import { ItemContainerNode } from "./ItemContainerNode.ts";
+import { Node } from "./Node.ts";
+import { TabNode } from "./TabNode.ts";
 
-export * from "./FolderNode";
-export * from "./Node";
-export * from "./TabNode";
-export * from "./ItemContainerNode";
-export * from "./GenericNode";
+export * from "./FolderNode.ts";
+export * from "./Node.ts";
+export * from "./TabNode.ts";
+export * from "./ItemContainerNode.ts";
+export * from "./GenericNode.ts";
 
 const parseJSON = (item: any): Node => {
   switch (item["type"]) {

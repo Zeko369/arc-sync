@@ -1,19 +1,17 @@
-import { readFile } from "node:fs/promises";
-
-import { convertArrayToObj, iterateOverWeirdArray } from "./iterationUtils";
-import { ArcWindow } from "../models/ArcWindow";
-import { ItemContainerNode } from "../models/nodes";
-import { Space } from "../models/Space";
-import { ArcParser } from "./parser";
-import { ArcNode } from "./parser/schema";
+import { convertArrayToObj, iterateOverWeirdArray } from "./iterationUtils.ts";
+import { ArcWindow } from "../models/ArcWindow.ts";
+import { ItemContainerNode } from "../models/nodes/index.ts";
+import { Space } from "../models/Space.ts";
+import { ArcParser } from "./parser/index.ts";
+import { ArcNode } from "./parser/schema.ts";
 
 export class Importer {
   static FILENAME = `${process.env["HOME"]}/Library/Application\ Support/Arc/StorableSidebar.json`;
 
-  oldFile: string = "";
+  private oldFile = "";
 
   async loadFile() {
-    const file = await readFile(Importer.FILENAME, "utf8");
+    const file = await Deno.readTextFile(Importer.FILENAME);
     if (file === this.oldFile) {
       throw new Error("SAME_FILE");
     }

@@ -1,6 +1,12 @@
-import { FolderNode, GenericNode, ItemContainerNode, Node, TabNode } from "../../models/nodes";
-import { ArcNode, itemContainerSchema, listSchema, tabSchema } from "./schema";
-import { compact } from "../../util";
+import {
+  FolderNode,
+  GenericNode,
+  ItemContainerNode,
+  Node,
+  TabNode,
+} from "../../models/nodes/index.ts";
+import { ArcNode, itemContainerSchema, listSchema, tabSchema } from "./schema.ts";
+import { compact } from "../../util.ts";
 
 export class ArcParser {
   private static getType(obj: { data: Record<string, any> }) {

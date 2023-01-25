@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "https://deno.land/x/zod@v3.20.2/mod.ts";
 
 export const baseSchema = z.object({
   id: z.string().uuid(),

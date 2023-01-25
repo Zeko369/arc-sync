@@ -36,8 +36,8 @@ const parseAndSend = async () => {
     body: JSON.stringify({ data: data.toJSON() }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env["TOKEN"]}`
-    }
+      Authorization: `Bearer ${process.env["TOKEN"]}`,
+    },
   }).catch(onCatch);
 
   if (res instanceof Error) {
