@@ -1,5 +1,5 @@
-import { INode, Node } from "./Node";
-import { TabSchema } from "../../import/parser/schema";
+import { INode, Node } from "./Node.ts";
+import { TabSchema } from "../../import/parser/schema.ts";
 
 export interface ITabNode extends INode {
   url: string;

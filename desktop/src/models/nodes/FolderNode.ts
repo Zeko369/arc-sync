@@ -1,4 +1,4 @@
-import { INode, Node } from "./Node";
+import { INode, Node } from "./Node.ts";
 
 export interface IFolderNode extends INode {
   children: INode[];

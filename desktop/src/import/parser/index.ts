@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-case-declarations
 import {
   FolderNode,
   GenericNode,
@@ -9,7 +10,7 @@ import { ArcNode, itemContainerSchema, listSchema, tabSchema } from "./schema.ts
 import { compact } from "../../util.ts";
 
 export class ArcParser {
-  private static getType(obj: { data: Record<string, any> }) {
+  private static getType(obj: { data: Record<string, unknown> }) {
     return Object.keys(obj["data"])[0];
   }
 

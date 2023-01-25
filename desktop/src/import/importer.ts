@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { convertArrayToObj, iterateOverWeirdArray } from "./iterationUtils.ts";
 import { ArcWindow } from "../models/ArcWindow.ts";
 import { ItemContainerNode } from "../models/nodes/index.ts";
@@ -6,7 +7,7 @@ import { ArcParser } from "./parser/index.ts";
 import { ArcNode } from "./parser/schema.ts";
 
 export class Importer {
-  static FILENAME = `${process.env["HOME"]}/Library/Application\ Support/Arc/StorableSidebar.json`;
+  static FILENAME = `${Deno.env.get("HOME")}/Library/Application\ Support/Arc/StorableSidebar.json`;
 
   private oldFile = "";
 
@@ -53,7 +54,6 @@ export class Importer {
             .padStart(2, "0");
 
         color = `#${convert(tmpColor.red)}${convert(tmpColor.green)}${convert(tmpColor.blue)}`;
-        console.log(color);
       }
 
       arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], icon, color, {

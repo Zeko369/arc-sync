@@ -8,16 +8,13 @@
 // - figure out how to package this (maybe deno?) and how to cron it?
 // - figure out end2end encryption
 
-import { join } from "node:path";
-import { config } from "dotenv";
+import "https://deno.land/std@0.173.0/dotenv/load.ts";
 
-import { Importer } from "./import/importer";
-
-config({ path: join(__dirname, "../.env") });
+import { Importer } from "./import/importer.ts";
 
 const importer = new Importer();
 
-const onCatch = (err: any) => err as Error;
+const onCatch = (err: unknown) => err as Error;
 
 const parseAndSend = async () => {
   const data = await importer.import().catch(onCatch);
@@ -36,7 +33,7 @@ const parseAndSend = async () => {
     body: JSON.stringify({ data: data.toJSON() }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env["TOKEN"]}`,
+      Authorization: `Bearer ${Deno.env.get("TOKEN")}`,
     },
   }).catch(onCatch);
 
@@ -57,7 +54,8 @@ const parseAndSend = async () => {
 
 const interval = setInterval(() => parseAndSend(), 1000);
 
-process.on("beforeExit", () => {
+Deno.addSignalListener("SIGINT", () => {
   console.log("Closing...");
   clearInterval(interval);
+  Deno.exit();
 });

@@ -1,4 +1,4 @@
-import { ItemContainerNode } from "./nodes";
+import { ItemContainerNode } from "./nodes/index.ts";
 
 export class Container {
   node: ItemContainerNode;

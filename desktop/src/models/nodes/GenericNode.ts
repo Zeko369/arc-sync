@@ -1,5 +1,6 @@
-import { INode, Node } from "./Node";
+import { INode, Node } from "./Node.ts";
 
+// deno-lint-ignore no-empty-interface
 export interface IGenericNode extends INode {}
 
 export class GenericNode extends Node implements IGenericNode {

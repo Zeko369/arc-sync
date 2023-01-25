@@ -1,4 +1,4 @@
-import { Space } from "./Space";
+import { Space } from "./Space.ts";
 
 export class ArcWindow {
   constructor(public spaces: Record<string, Space>) {}

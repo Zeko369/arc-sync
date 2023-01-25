@@ -20,6 +20,7 @@ export const iterateOverWeirdArray = <T, K = string>(
 };
 
 export const convertArrayToObj = <T, K extends string = string>(array: T[]) => {
+  // deno-lint-ignore no-explicit-any
   const obj: Record<K, T> = {} as any;
   iterateOverWeirdArray<T, K>(array, (key, value) => (obj[key] = value));
   return obj;
