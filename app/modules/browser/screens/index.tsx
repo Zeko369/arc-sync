@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, ScrollView, Text, useColorScheme, View } from "react-native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 
 import { api } from "../../../lib/api";
 import { useAuth } from "../../auth/authContext";
@@ -62,10 +62,11 @@ const spaceIconMap = {
 const Drawer = createDrawerNavigator();
 const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
   const arcWindow = useMemo(() => importWhole(raw), [raw]);
+  const scheme = useColorScheme();
 
   return (
     <ArcWindowProvider arcWindow={arcWindow}>
-      <NavigationContainer>
+      <NavigationContainer theme={scheme === "dark" ? DarkTheme : DefaultTheme}>
         <Drawer.Navigator initialRouteName={Object.values(arcWindow.spaces)[0].title}>
           {Object.values(arcWindow.spaces).map(space => (
             <Drawer.Screen
@@ -93,8 +94,12 @@ const BrowserBody: React.FC<{ raw: string }> = ({ raw }) => {
                     // @ts-ignore
                     if (spaceIconMap[space.icon.value]) {
                       return (
-                        // @ts-ignore
-                        <Ionicons name={spaceIconMap[space.icon.value]} size={18} color="black" />
+                        <Ionicons
+                          // @ts-ignore
+                          name={spaceIconMap[space.icon.value]}
+                          size={18}
+                          color={scheme === "dark" ? "white" : "#212121"}
+                        />
                       );
                     }
 

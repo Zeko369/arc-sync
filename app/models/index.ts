@@ -5,7 +5,7 @@ import { Space } from "./Space";
 export const importWhole = (data: any): ArcWindow => {
   return new ArcWindow(
     Object.fromEntries(
-      data.spaces.map(space => {
+      data.spaces.map((space: any) => {
         const s = new Space(space["id"], space["title"], space["icon"], {
           pinned: space["pinnedContainer"]["id"],
           unpinned: space["unpinnedContainer"]["id"]
