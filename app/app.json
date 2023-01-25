@@ -16,7 +16,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.zeko369.arcsync"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,6 +28,11 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3b29b34b-73f8-4c06-a99e-1c66da622fa3"
+      }
     }
   }
 }
