@@ -5,6 +5,7 @@ import React from "react";
 
 const iconMap: Record<string, any> = {
   document: "document-text-outline",
+  terminal: "terminal-outline",
 };
 
 export const GetIcon: React.FC<{ name: string; color?: string | null }> = (props) => {
