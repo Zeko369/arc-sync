@@ -6,7 +6,8 @@ import { Space } from "../../../models/Space";
 
 const spaceIconMap: Record<string, ComponentProps<typeof Ionicons>["name"]> = {
   planet: "planet",
-  fileTrayFull: "file-tray-full"
+  fileTrayFull: "file-tray-full",
+  flash: "flash"
 };
 
 type SpaceIconProps = {

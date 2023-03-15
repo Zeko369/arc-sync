@@ -5,7 +5,8 @@ export const api = async <T = {}>(
   options: { method?: string; body?: any } = {},
   token?: string
 ) => {
-  const res = await fetch(`${BASE_URL}${!path.startsWith("/") ? "/" : ""}${path}`, {
+  const url = `${BASE_URL}${!path.startsWith("/") ? "/" : ""}${path}`;
+  const res = await fetch(url, {
     method: options.method || "GET",
     ...(options.body && {
       body: typeof options.body === "string" ? options.body : JSON.stringify(options.body)
