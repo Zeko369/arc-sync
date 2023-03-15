@@ -27,6 +27,7 @@ export const AppHome = () => {
     <FlashList
       data={data}
       numColumns={2}
+      estimatedItemSize={10}
       renderItem={({ item }) => {
         return (
           <View

@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { ActivityIndicator, Text, useColorScheme } from "react-native";
+import React, { useContext, useMemo } from "react";
+import { ActivityIndicator, Alert, Text, useColorScheme, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
@@ -9,7 +9,7 @@ import { Button } from "../../../components/Button";
 import { CenterWrapper } from "../../../components/CenterWrapper";
 import { api } from "../../../lib/api";
 import { importWhole } from "../../../models";
-import { useAuth } from "../../auth/authContext";
+import { AuthContext, useAuth } from "../../auth/authContext";
 import { ArcWindowProvider } from "../arcWindowContext";
 import { SpaceIcon } from "../components/SpaceIcon";
 import { AppHome } from "./home";
@@ -17,24 +17,30 @@ import { RenderPane } from "./space";
 
 export const Browser = () => {
   const auth = useAuth();
-  const { data, isLoading, isFetching, isError, refetch } = useQuery(
+  const fullAuth = useContext(AuthContext);
+
+  const { data, isLoading, isFetching, isError, error, refetch } = useQuery(
     ["sync"],
     () => api<{ data: string }>("/sync", {}, auth?.token),
     { refetchInterval: 1000 }
   );
 
+  const LoadingComponent = useMemo(() => {
+    return () => (
+      <CenterWrapper>
+        {isLoading ? <ActivityIndicator size="large" /> : <Text>Error...{String(error)}</Text>}
+        <Button onPress={fullAuth.logout}>
+          <Text>Logout</Text>
+        </Button>
+      </CenterWrapper>
+    );
+  }, [isLoading, error, auth]);
+
   if (isError || isLoading) {
     return (
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Loading">
-          <Drawer.Screen
-            name="Loading"
-            component={() => (
-              <CenterWrapper>
-                {isLoading ? <ActivityIndicator size="large" /> : <Text>Error...</Text>}
-              </CenterWrapper>
-            )}
-          />
+          <Drawer.Screen name="Loading" component={LoadingComponent} />
         </Drawer.Navigator>
       </NavigationContainer>
     );
@@ -48,6 +54,18 @@ type BrowserBodyProps = { raw: string; isFetching: boolean; refetch: () => void 
 const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) => {
   const arcWindow = useMemo(() => importWhole(raw), [raw]);
   const scheme = useColorScheme();
+  const fullAuth = useContext(AuthContext);
+
+  const onLogout = () => {
+    Alert.alert(
+      "Logout",
+      "Are you sure?",
+      [{ text: "Yes", onPress: fullAuth.logout }, { text: "Cancel" }],
+      {
+        cancelable: true
+      }
+    );
+  };
 
   return (
     <ArcWindowProvider arcWindow={arcWindow}>
@@ -58,28 +76,40 @@ const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) =
             component={AppHome}
             options={{
               headerRight: () => (
-                <Button noColor onPress={refetch} disabled={isFetching}>
-                  <Ionicons name="reload" size={18} color={isFetching ? "#A0AEC0" : "#212121"} />
-                </Button>
+                <View className="flex flex-row">
+                  <Button noColor onPress={onLogout}>
+                    <Ionicons name="log-out" size={18} color="#212121" />
+                  </Button>
+
+                  <Button noColor onPress={refetch} disabled={isFetching}>
+                    <Ionicons name="reload" size={18} color={isFetching ? "#A0AEC0" : "#212121"} />
+                  </Button>
+                </View>
               )
             }}
           />
 
-          {Object.values(arcWindow.spaces).map((space) => (
-            <Drawer.Screen
-              key={space.id}
-              name={space.title}
-              component={RenderPane(space.id)}
-              options={{
-                headerRight: () => (
-                  <Button noColor onPress={refetch} disabled={isFetching}>
-                    <Ionicons name="reload" size={18} color={isFetching ? "#A0AEC0" : "#212121"} />
-                  </Button>
-                ),
-                drawerIcon: () => <SpaceIcon icon={space.icon} />
-              }}
-            />
-          ))}
+          {Object.values(arcWindow.spaces)
+            .filter((space) => !!space.title)
+            .map((space) => (
+              <Drawer.Screen
+                key={space.id}
+                name={space.title}
+                component={RenderPane(space.id)}
+                options={{
+                  headerRight: () => (
+                    <Button noColor onPress={refetch} disabled={isFetching}>
+                      <Ionicons
+                        name="reload"
+                        size={18}
+                        color={isFetching ? "#A0AEC0" : "#212121"}
+                      />
+                    </Button>
+                  ),
+                  drawerIcon: () => <SpaceIcon icon={space.icon} />
+                }}
+              />
+            ))}
         </Drawer.Navigator>
       </NavigationContainer>
     </ArcWindowProvider>

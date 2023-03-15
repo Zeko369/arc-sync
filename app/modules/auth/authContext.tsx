@@ -6,14 +6,17 @@ type AuthContextType = {
   user: null | { id: string; token: string };
   isLoading: boolean;
   storeUser: (user: AuthContextType["user"]) => Promise<void>;
+  logout: () => void;
 };
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
-  storeUser: () => Promise.resolve(undefined)
+  storeUser: () => Promise.resolve(undefined),
+  logout: () => {}
 });
 
+export const AUTH_EMAIL_KEY = "AUTH_EMAIL";
 export const AUTH_STORE_KEY = "AUTH_STORE_KEY";
 const storeSchema = z.object({
   id: z.string(),
@@ -42,14 +45,14 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   const storeUser = async (user: AuthContextType["user"]) => {
-    console.log(user);
-
     await setItemAsync(AUTH_STORE_KEY, JSON.stringify(user));
     setUser(user);
   };
 
   return (
-    <AuthContext.Provider value={{ user, storeUser, isLoading }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ user, storeUser, isLoading, logout: () => storeUser(null) }}>
+      {children}
+    </AuthContext.Provider>
   );
 };
 
