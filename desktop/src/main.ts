@@ -44,7 +44,7 @@ const parseAndSend = async () => {
 
   if (!res.ok) {
     console.log("Error sending data");
-    console.log(await res.json());
+    console.log(await res.text());
     return;
   }
 
