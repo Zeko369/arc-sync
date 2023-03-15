@@ -5,7 +5,7 @@ export const baseSchema = z.object({
   title: z.string().nullable(),
 
   parentID: z.string().nullable(),
-  childrenIds: z.array(z.string().uuid()),
+  childrenIds: z.array(z.string().uuid())
 });
 
 export type TabSchema = z.infer<typeof tabSchema>;
@@ -18,18 +18,18 @@ export const tabSchema = baseSchema.extend({
         .object({
           iconType: z.union([
             z.object({ icon: z.string() }),
-            z.object({ emoji: z.number(), emoji_v2: z.string() }),
-          ]),
+            z.object({ emoji: z.number(), emoji_v2: z.string() })
+          ])
         })
-        .optional(),
-    }),
-  }),
+        .optional()
+    })
+  })
 });
 
 export const listSchema = baseSchema.extend({
   data: z.object({
-    list: z.object({}),
-  }),
+    list: z.object({})
+  })
 });
 
 export const itemContainerSchema = baseSchema.extend({
@@ -37,11 +37,11 @@ export const itemContainerSchema = baseSchema.extend({
     itemContainer: z.object({
       containerType: z.object({
         spaceItems: z.object({
-          _0: z.string(),
-        }),
-      }),
-    }),
-  }),
+          _0: z.string()
+        })
+      })
+    })
+  })
 });
 
 export const easleSchema = baseSchema.extend({
@@ -50,15 +50,15 @@ export const easleSchema = baseSchema.extend({
       easelID: z.string(),
       title: z.string(),
       shareStatus: z.enum(["readOnly"]),
-      creatorID: z.string(),
-    }),
-  }),
+      creatorID: z.string()
+    })
+  })
 });
 
 export const splitViewSchema = baseSchema.extend({
   data: z.object({
-    splitView: z.object({}),
-  }),
+    splitView: z.object({})
+  })
 });
 
 export type ArcNode = z.infer<typeof arcNodeSchema>;
@@ -67,5 +67,5 @@ export const arcNodeSchema = z.union([
   listSchema,
   itemContainerSchema,
   easleSchema,
-  splitViewSchema,
+  splitViewSchema
 ]);

@@ -27,7 +27,7 @@ export abstract class Node implements INode {
       type: this.type,
 
       title: this.title,
-      parentID: this.parentID,
+      parentID: this.parentID
     };
   }
 }

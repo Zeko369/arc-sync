@@ -21,7 +21,7 @@ export class FolderNode extends Node implements IFolderNode {
   toJSON(): IFolderNode {
     return {
       ...super.baseJSON(),
-      children: this.children.map((tab) => tab.toJSON()),
+      children: this.children.map((tab) => tab.toJSON())
     };
   }
 }

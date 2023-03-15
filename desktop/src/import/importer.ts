@@ -1,8 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import { convertArrayToObj, iterateOverWeirdArray } from "./iterationUtils.ts";
+
 import { ArcWindow } from "../models/ArcWindow.ts";
 import { ItemContainerNode } from "../models/nodes/index.ts";
 import { Space } from "../models/Space.ts";
+import { convertArrayToObj, iterateOverWeirdArray } from "./iterationUtils.ts";
 import { ArcParser } from "./parser/index.ts";
 import { ArcNode } from "./parser/schema.ts";
 
@@ -58,7 +59,7 @@ export class Importer {
 
       arcWindow.spaces[spaceId] = new Space(spaceId, space["title"], icon, color, {
         pinned: containerIds["pinned"],
-        unpinned: containerIds["unpinned"],
+        unpinned: containerIds["unpinned"]
       });
     });
 

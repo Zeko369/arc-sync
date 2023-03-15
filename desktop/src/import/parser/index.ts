@@ -4,10 +4,10 @@ import {
   GenericNode,
   ItemContainerNode,
   Node,
-  TabNode,
+  TabNode
 } from "../../models/nodes/index.ts";
-import { ArcNode, itemContainerSchema, listSchema, tabSchema } from "./schema.ts";
 import { compact } from "../../util.ts";
+import { ArcNode, itemContainerSchema, listSchema, tabSchema } from "./schema.ts";
 
 export class ArcParser {
   private static getType(obj: { data: Record<string, unknown> }) {
@@ -39,7 +39,7 @@ export class ArcParser {
           ...rest,
           favicon: TabNode.getFavicon(data),
           url: data["tab"]["savedURL"],
-          title: rest.title || data["tab"]["savedTitle"],
+          title: rest.title || data["tab"]["savedTitle"]
         });
       case "easel":
       case "splitView":

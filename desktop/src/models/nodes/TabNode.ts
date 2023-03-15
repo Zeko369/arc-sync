@@ -1,5 +1,5 @@
-import { INode, Node } from "./Node.ts";
 import { TabSchema } from "../../import/parser/schema.ts";
+import { INode, Node } from "./Node.ts";
 
 export interface ITabNode extends INode {
   url: string;
@@ -27,7 +27,7 @@ export class TabNode extends Node implements ITabNode {
       ...super.baseJSON(),
       url: this.url,
       domain: this.domain,
-      favicon: this.favicon,
+      favicon: this.favicon
     };
   }
 
@@ -39,13 +39,13 @@ export class TabNode extends Node implements ITabNode {
     if ("icon" in data.tab.customInfo.iconType) {
       return {
         type: "icon" as const,
-        value: data.tab.customInfo.iconType.icon,
+        value: data.tab.customInfo.iconType.icon
       };
     }
 
     return {
       type: "emoji" as const,
-      value: data.tab.customInfo.iconType.emoji_v2,
+      value: data.tab.customInfo.iconType.emoji_v2
     };
   }
 }

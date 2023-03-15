@@ -9,7 +9,6 @@
 // - figure out end2end encryption
 
 import "https://deno.land/std@0.173.0/dotenv/load.ts";
-
 import { Importer } from "./import/importer.ts";
 
 const importer = new Importer();
@@ -33,8 +32,8 @@ const parseAndSend = async () => {
     body: JSON.stringify({ data: data.toJSON() }),
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${Deno.env.get("TOKEN")}`,
-    },
+      Authorization: `Bearer ${Deno.env.get("TOKEN")}`
+    }
   }).catch(onCatch);
 
   if (res instanceof Error) {
