@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useEffect, useMemo } from "react";
 import { ActivityIndicator, Alert, Text, useColorScheme, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -15,15 +15,35 @@ import { SpaceIcon } from "../components/SpaceIcon";
 import { AppHome } from "./home";
 import { RenderPane } from "./space";
 
+type DataReturn = {
+  data: string;
+  createdAt: string;
+};
+
 export const Browser = () => {
   const auth = useAuth();
   const fullAuth = useContext(AuthContext);
 
-  const { data, isLoading, isFetching, isError, error, refetch } = useQuery(
+  const {
+    data,
+    isLoading,
+    // isFetching,
+    isError,
+    error,
+    refetch
+  } = useQuery(
     ["sync"],
-    () => api<{ data: string }>("/sync", {}, auth?.token),
-    { refetchInterval: 1000 }
+    () => api<DataReturn>("/sync", {}, auth?.token)
+    // { refetchInterval: 1000, refetchIntervalInBackground: true }
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      refetch();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const LoadingComponent = useMemo(() => {
     return () => (
@@ -46,13 +66,13 @@ export const Browser = () => {
     );
   }
 
-  return <BrowserBody raw={data.data} refetch={refetch} isFetching={isFetching} />;
+  return <BrowserBody data={data} refetch={refetch} isFetching={false} />;
 };
 
 const Drawer = createDrawerNavigator();
-type BrowserBodyProps = { raw: string; isFetching: boolean; refetch: () => void };
-const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) => {
-  const arcWindow = useMemo(() => importWhole(raw), [raw]);
+type BrowserBodyProps = { data: DataReturn; isFetching: boolean; refetch: () => void };
+const BrowserBody: React.FC<BrowserBodyProps> = ({ data, isFetching, refetch }) => {
+  const arcWindow = useMemo(() => importWhole(data), [data]);
   const scheme = useColorScheme();
   const fullAuth = useContext(AuthContext);
 
@@ -106,7 +126,16 @@ const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) =
                       />
                     </Button>
                   ),
-                  drawerIcon: () => <SpaceIcon icon={space.icon} />
+                  drawerIcon: ({ size }) => (
+                    <View
+                      style={{
+                        height: size,
+                        width: size
+                      }}
+                    >
+                      <SpaceIcon icon={space.icon} />
+                    </View>
+                  )
                 }}
               />
             ))}

@@ -2,10 +2,11 @@ import { ArcWindow } from "./ArcWindow";
 import { fromJSON, ItemContainerNode } from "./nodes";
 import { Space } from "./Space";
 
-export const importWhole = (data: any): ArcWindow => {
+export const importWhole = (data: { data: any; createdAt: string }): ArcWindow => {
   return new ArcWindow(
+    new Date(data.createdAt),
     Object.fromEntries(
-      data.spaces.map((space: any) => {
+      data.data.spaces.map((space: any) => {
         const s = new Space(space["id"], space["title"], space["icon"], space["color"], {
           pinned: space["pinnedContainer"]["id"],
           unpinned: space["unpinnedContainer"]["id"]

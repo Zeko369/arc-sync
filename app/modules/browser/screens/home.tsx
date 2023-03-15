@@ -24,36 +24,42 @@ export const AppHome = () => {
   }, [arcWindow]);
 
   return (
-    <FlashList
-      data={data}
-      numColumns={2}
-      estimatedItemSize={10}
-      renderItem={({ item }) => {
-        return (
-          <View
-            className={`flex items-center justify-center p-6`}
-            style={{ width: squareWidth, height: squareWidth }}
-          >
-            <Pressable
-              className="w-full h-full rounded-3xl items-center justify-center"
-              style={
-                item.color ? { backgroundColor: `${item.color}90` } : { backgroundColor: "#dadada" }
-              }
-              onPress={() => (navigation.navigate as any)(item.title)}
+    <View className="w-full h-full">
+      <Text className="ml-6 mt-1">Synced at: {arcWindow.fetchedAt.toLocaleString()}</Text>
+
+      <FlashList
+        data={data}
+        numColumns={2}
+        estimatedItemSize={10}
+        renderItem={({ item }) => {
+          return (
+            <View
+              className={`flex items-center justify-center p-6`}
+              style={{ width: squareWidth, height: squareWidth }}
             >
-              <SpaceIcon
-                icon={item.icon}
-                size={32}
-                color={item.isDark ? "white" : "212121"}
-                offsetNoIcon
-              />
-              <Text className={`text-lg font-bold ${item.isDark ? "text-white" : "text-black"}`}>
-                {item.title}
-              </Text>
-            </Pressable>
-          </View>
-        );
-      }}
-    />
+              <Pressable
+                className="w-full h-full rounded-3xl items-center justify-center"
+                style={
+                  item.color
+                    ? { backgroundColor: `${item.color}90` }
+                    : { backgroundColor: "#dadada" }
+                }
+                onPress={() => (navigation.navigate as any)(item.title)}
+              >
+                <SpaceIcon
+                  icon={item.icon}
+                  size={32}
+                  color={item.isDark ? "white" : "212121"}
+                  offsetNoIcon
+                />
+                <Text className={`text-lg font-bold ${item.isDark ? "text-white" : "text-black"}`}>
+                  {item.title}
+                </Text>
+              </Pressable>
+            </View>
+          );
+        }}
+      />
+    </View>
   );
 };
