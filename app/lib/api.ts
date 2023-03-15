@@ -8,12 +8,12 @@ export const api = async <T = {}>(
   const res = await fetch(`${BASE_URL}${!path.startsWith("/") ? "/" : ""}${path}`, {
     method: options.method || "GET",
     ...(options.body && {
-      body: typeof options.body === "string" ? options.body : JSON.stringify(options.body),
+      body: typeof options.body === "string" ? options.body : JSON.stringify(options.body)
     }),
     headers: {
       "Content-Type": "application/json",
-      ...(token && { Authorization: `Bearer ${token}` }),
-    },
+      ...(token && { Authorization: `Bearer ${token}` })
+    }
   });
 
   if (res.status === 401) {

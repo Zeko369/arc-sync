@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import * as WebBrowser from "expo-web-browser";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
-import { TabNode, ItemContainerNode, FolderNode, Node } from "../../../models/nodes";
-import { Favicon } from "./Favicon";
+import { FolderNode, ItemContainerNode, Node, TabNode } from "../../../models/nodes";
 import { useSpaceContext } from "../spaceContext";
+import { Favicon } from "./Favicon";
 
 const Tab = ({ children, onPress, color }: any) => {
   return (
@@ -15,7 +15,7 @@ const Tab = ({ children, onPress, color }: any) => {
           className={`flex flex-row px-3 py-2 rounded-xl items-center border mt-2`}
           style={{
             borderColor: pressed ? color : `${color}89`,
-            backgroundColor: pressed ? `${color}1f` : "white",
+            backgroundColor: pressed ? `${color}1f` : "white"
           }}
         >
           {children}

@@ -11,13 +11,13 @@ type AuthContextType = {
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: true,
-  storeUser: () => Promise.resolve(undefined),
+  storeUser: () => Promise.resolve(undefined)
 });
 
 export const AUTH_STORE_KEY = "AUTH_STORE_KEY";
 const storeSchema = z.object({
   id: z.string(),
-  token: z.string(),
+  token: z.string()
 });
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {

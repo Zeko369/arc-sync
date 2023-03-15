@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { TextInput, Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { useMutation } from "@tanstack/react-query";
+
+import { Button } from "../../../components/Button";
 import { api } from "../../../lib/api";
 import { AuthContext } from "../authContext";
-import { Button } from "../../../components/Button";
 
 export const LoginScreen = () => {
   const ctx = useContext(AuthContext);
@@ -14,7 +15,7 @@ export const LoginScreen = () => {
   const mutation = useMutation(() =>
     api<{ id: string; token: string }>("/auth/login", {
       method: "POST",
-      body: { email, password },
+      body: { email, password }
     })
   );
 

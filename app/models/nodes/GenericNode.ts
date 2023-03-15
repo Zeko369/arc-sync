@@ -11,7 +11,7 @@ export class GenericNode extends Node implements IGenericNode {
 
   toJSON(): IGenericNode {
     return {
-      ...super.baseJSON(),
+      ...super.baseJSON()
     };
   }
 }

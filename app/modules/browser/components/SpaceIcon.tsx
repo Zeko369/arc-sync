@@ -1,12 +1,12 @@
 import React, { ComponentProps } from "react";
+import { Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { View, Text } from "react-native";
 
 import { Space } from "../../../models/Space";
 
 const spaceIconMap: Record<string, ComponentProps<typeof Ionicons>["name"]> = {
   planet: "planet",
-  fileTrayFull: "file-tray-full",
+  fileTrayFull: "file-tray-full"
 };
 
 type SpaceIconProps = {
@@ -28,7 +28,7 @@ export const SpaceIcon: React.FC<SpaceIconProps> = ({ icon, offsetNoIcon, size =
               width: size / 2,
               height: size / 2,
               backgroundColor: "#A0AEC0",
-              borderRadius: size / 4,
+              borderRadius: size / 4
             }}
           />
         </View>

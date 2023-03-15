@@ -1,4 +1,5 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
+import { createContext, PropsWithChildren, useContext } from "react";
+
 import { ArcWindow } from "../../models/ArcWindow";
 
 // @ts-ignore

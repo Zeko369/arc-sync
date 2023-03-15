@@ -45,7 +45,7 @@ export class Space {
       title: this.title,
       color: this.color,
       pinnedContainer: this.pinnedContainer.node.toJSON(),
-      unpinnedContainer: this.unpinnedContainer.node.toJSON(),
+      unpinnedContainer: this.unpinnedContainer.node.toJSON()
     };
   }
 }

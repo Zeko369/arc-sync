@@ -1,35 +1,19 @@
 import React, { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
-import {
-  ActivityIndicator,
-  Dimensions,
-  Pressable,
-  ScrollView,
-  Text,
-  useColorScheme,
-  View,
-} from "react-native";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import {
-  DarkTheme,
-  DefaultTheme,
-  NavigationContainer,
-  useNavigation,
-} from "@react-navigation/native";
-
-import { api } from "../../../lib/api";
-import { useAuth } from "../../auth/authContext";
-import { CenterWrapper } from "../../../components/CenterWrapper";
-import { importWhole } from "../../../models";
-import { ArcWindowProvider, useArcWindow } from "../arcWindowContext";
-import { RenderNode } from "../components/RenderNode";
+import { ActivityIndicator, Text, useColorScheme } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
+import { useQuery } from "@tanstack/react-query";
+
 import { Button } from "../../../components/Button";
-import { FlashList } from "@shopify/flash-list";
-import { Space } from "../../../models/Space";
+import { CenterWrapper } from "../../../components/CenterWrapper";
+import { api } from "../../../lib/api";
+import { importWhole } from "../../../models";
+import { useAuth } from "../../auth/authContext";
+import { ArcWindowProvider } from "../arcWindowContext";
+import { SpaceIcon } from "../components/SpaceIcon";
 import { AppHome } from "./home";
 import { RenderPane } from "./space";
-import { SpaceIcon } from "../components/SpaceIcon";
 
 export const Browser = () => {
   const auth = useAuth();
@@ -77,7 +61,7 @@ const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) =
                 <Button noColor onPress={refetch} disabled={isFetching}>
                   <Ionicons name="reload" size={18} color={isFetching ? "#A0AEC0" : "#212121"} />
                 </Button>
-              ),
+              )
             }}
           />
 
@@ -92,7 +76,7 @@ const BrowserBody: React.FC<BrowserBodyProps> = ({ raw, isFetching, refetch }) =
                     <Ionicons name="reload" size={18} color={isFetching ? "#A0AEC0" : "#212121"} />
                   </Button>
                 ),
-                drawerIcon: () => <SpaceIcon icon={space.icon} />,
+                drawerIcon: () => <SpaceIcon icon={space.icon} />
               }}
             />
           ))}

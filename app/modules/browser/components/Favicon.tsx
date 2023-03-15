@@ -1,11 +1,12 @@
-import { Text, Image } from "react-native";
-import { FolderNode, TabNode } from "../../../models/nodes";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
+import { Image, Text } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { FolderNode, TabNode } from "../../../models/nodes";
 
 const iconMap: Record<string, any> = {
   document: "document-text-outline",
-  terminal: "terminal-outline",
+  terminal: "terminal-outline"
 };
 
 export const GetIcon: React.FC<{ name: string; color?: string | null }> = (props) => {

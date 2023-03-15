@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { Dimensions, Text, View, Pressable } from "react-native";
-import { FlashList } from "@shopify/flash-list";
+import { Dimensions, Pressable, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { FlashList } from "@shopify/flash-list";
 
 import { useArcWindow } from "../arcWindowContext";
 import { SpaceIcon } from "../components/SpaceIcon";
@@ -19,7 +19,7 @@ export const AppHome = () => {
       title: space.title,
       icon: space.icon,
       color: space.color,
-      isDark: space.isDarkColor(),
+      isDark: space.isDarkColor()
     }));
   }, [arcWindow]);
 

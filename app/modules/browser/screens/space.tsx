@@ -1,5 +1,6 @@
 import React from "react";
 import { ScrollView, View } from "react-native";
+
 import { useArcWindow } from "../arcWindowContext";
 import { RenderNode } from "../components/RenderNode";
 import { SpaceProvider } from "../spaceContext";
@@ -7,7 +8,6 @@ import { SpaceProvider } from "../spaceContext";
 export const RenderPane = (spaceId: string) => () => {
   const arcWindow = useArcWindow();
   const space = arcWindow.spaces[spaceId];
-  console.log(space);
 
   return (
     <SpaceProvider color={space.color}>

@@ -1,6 +1,6 @@
 import fastify, { FastifyRequest } from "fastify";
-import { PrismaClient } from "@prisma/client";
 import { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { PrismaClient } from "@prisma/client";
 import { Type } from "@sinclair/typebox";
 import { compare, hash } from "bcryptjs";
 import { sign, verify } from "jsonwebtoken";
@@ -18,9 +18,9 @@ server.post(
     schema: {
       body: Type.Object({
         email: Type.String(),
-        password: Type.String(),
-      }),
-    },
+        password: Type.String()
+      })
+    }
   },
   async (request, reply) => {
     const user = await prisma.user.findUnique({ where: { email: request.body.email } });
@@ -32,8 +32,8 @@ server.post(
     const newUser = await prisma.user.create({
       data: {
         email: request.body.email,
-        hashedPassword,
-      },
+        hashedPassword
+      }
     });
 
     return sign({ id: newUser.id }, process.env["SECRET"]!);
@@ -91,10 +91,10 @@ server.post("/sync", async (request, reply) => {
       data: (request.body as any)["data"],
       user: {
         connect: {
-          id: data.id,
-        },
-      },
-    },
+          id: data.id
+        }
+      }
+    }
   });
 });
 
@@ -107,8 +107,8 @@ server.get("/sync", async (request, reply) => {
   return prisma.sync.findFirst({
     where: { userId: data.id },
     orderBy: {
-      createdAt: "desc",
-    },
+      createdAt: "desc"
+    }
   });
 });
 

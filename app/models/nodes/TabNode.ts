@@ -26,7 +26,7 @@ export class TabNode extends Node implements ITabNode {
       ...super.baseJSON(),
       url: this.url,
       domain: this.domain,
-      favicon: this.favicon,
+      favicon: this.favicon
     };
   }
 
