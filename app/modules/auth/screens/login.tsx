@@ -96,7 +96,11 @@ export const LoginScreen = () => {
           />
         </View>
 
-        <Button onPress={onSubmit} className="w-32">
+        <Button
+          onPress={onSubmit}
+          className="w-32"
+          color={mutation.isLoading ? "bg-blue-200" : "bg-blue-400"}
+        >
           <Text className="text-center w-full text-xl">Login</Text>
         </Button>
       </View>
